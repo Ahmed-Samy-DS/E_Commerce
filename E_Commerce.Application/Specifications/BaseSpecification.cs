@@ -15,6 +15,34 @@ namespace E_Commerce.Application.Specifications
 
         public Expression<Func<TEntity, bool>> Criteria { get; private set; }
 
+        public Expression<Func<TEntity, object>>? OrderBy { get; private set; }
+
+        public Expression<Func<TEntity, object>>? OrderByDescending { get; private set; }
+
+        public int Take { get; private set; }
+
+        public int Skip { get; private set; }
+
+        public bool isPaginated { get; private set; }
+
+        protected void ApplyPagination(int pageSize, int pageIndex)
+        {
+            isPaginated = true;
+            Take = pageSize;
+            Skip = (pageIndex - 1) * pageSize;
+
+        }
+
+        protected void AddOrderBy(Expression<Func<TEntity, object>> OrderByExpression)
+        {
+            OrderBy = OrderByExpression;
+        }
+        protected void AddOrderByDesc(Expression<Func<TEntity, object>> OrderByExpression)
+        {
+            OrderByDescending = OrderByExpression;
+        }
+
+
         protected BaseSpecification(Expression<Func<TEntity, bool>> criteria)
         {
             Criteria = criteria;

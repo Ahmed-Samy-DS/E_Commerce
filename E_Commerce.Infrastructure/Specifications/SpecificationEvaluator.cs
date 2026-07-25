@@ -28,6 +28,23 @@ namespace E_Commerce.Infrastructure.Specifications
             {
                 query = spec.IncludeExpressions.Aggregate(query, (current, nextExp) => current.Include(nextExp));
             }
+
+            if(spec.OrderBy != null)
+            {
+                query = query.OrderBy(spec.OrderBy);
+            }
+            else if(spec.OrderByDescending != null)
+            {
+                query = query.OrderByDescending(spec.OrderByDescending);   
+            }
+
+            if(spec.isPaginated)
+            {
+                query = query.Skip(spec.Skip).Take(spec.Take);
+            }
+
+
+
             return query;
 
         }
