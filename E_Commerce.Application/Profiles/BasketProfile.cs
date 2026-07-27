@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Application.Profiles
 {
-    internal class BasketProfile : Profile
+    public class BasketProfile : Profile
     {
-        protected BasketProfile()
+        public BasketProfile()
         {
             CreateMap<CustomerBasket, BasketDto>().ReverseMap();
             CreateMap<BasketItem, BasketItemDto>().ReverseMap();
