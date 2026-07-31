@@ -1,5 +1,6 @@
 ﻿using E_Commerce.Application.Common;
 using E_Commerce.Application.Contracts;
+using E_Commerce.Application.DTOs.Identity;
 using E_Commerce.Infrastructure.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -32,6 +33,8 @@ namespace E_Commerce.Infrastructure.Identity.Services
             }
         }
 
+
+
         public async Task<Result<IdentityUserResult>> FindUserByEmailAsync(string email, CancellationToken cancellationToken = default)
         {
             var user = await _userManager.FindByEmailAsync(email);
@@ -43,6 +46,32 @@ namespace E_Commerce.Infrastructure.Identity.Services
             {
                 return Result<IdentityUserResult>.OK(new IdentityUserResult(user.Id, user.DisplayName, user.Email, user.UserName));
             }
+        }
+
+
+        public async Task<Result<IdentityUserResult>> CreateUserAsync(RegisterDto registerDto, CancellationToken cancellationToken = default)
+        {
+
+            var user = new ApplicationUser()
+            {
+                Email = registerDto.Email,
+                PhoneNumber = registerDto.PhoneNumber,
+                UserName = registerDto.UserName,
+                DisplayName = registerDto.DisplayName
+
+            };
+
+           var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+           if(!result.Succeeded) 
+           {
+                var errors = result.Errors.Select(e => new Error(e.Code, e.Description)).ToList();
+                return Result<IdentityUserResult>.Fail(errors);
+            
+           }
+
+            return Result<IdentityUserResult>.OK(new IdentityUserResult(user.Id, user.Email, user.UserName, user.DisplayName));
+
         }
     }
 }

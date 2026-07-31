@@ -15,5 +15,10 @@ namespace E_Commerce.Application.Contracts
         // Email + Password => Token, Email, DisplayName
 
         Task<Result<UserDto>> LoginAsync(LoginDto loginDto, CancellationToken cancellationToken = default);
+        Task<Result<UserDto>> RegisterAsync(RegisterDto registerDto, CancellationToken cancellationToken = default);
+
+        
+
+
     }
 }
