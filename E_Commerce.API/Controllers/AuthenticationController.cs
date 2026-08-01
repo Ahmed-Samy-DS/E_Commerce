@@ -35,7 +35,7 @@ namespace E_Commerce.API.Controllers
 
 
         // Check Email Exists
-        [HttpGet("Emailexists")]
+        [HttpGet("EmailExists")]
         public async Task<ActionResult<bool>> CheckEmail([FromQuery] string email, CancellationToken cancellationToken)
         {
             return ToActionResult(await _authenticationService.CheckEmailExistsAsync(email, cancellationToken));
