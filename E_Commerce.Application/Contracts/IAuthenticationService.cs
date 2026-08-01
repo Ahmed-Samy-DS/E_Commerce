@@ -16,6 +16,7 @@ namespace E_Commerce.Application.Contracts
 
         Task<Result<UserDto>> LoginAsync(LoginDto loginDto, CancellationToken cancellationToken = default);
         Task<Result<UserDto>> RegisterAsync(RegisterDto registerDto, CancellationToken cancellationToken = default);
+        Task<Result<bool>> CheckEmailExistsAsync(string email, CancellationToken cancellationToken = default);
 
         
 

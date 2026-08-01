@@ -19,6 +19,12 @@ namespace E_Commerce.Application.Services
             _identityService = identityService;
             _tokenService = tokenService;
         }
+
+        public async Task<Result<bool>> CheckEmailExistsAsync(string email, CancellationToken cancellationToken = default)
+        {
+            return await _identityService.EmailExistsAsync(email, cancellationToken);
+        }
+
         public async Task<Result<UserDto>> LoginAsync(LoginDto loginDto, CancellationToken cancellationToken = default)
         {
             // Get User By Email

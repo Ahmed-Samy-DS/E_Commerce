@@ -32,7 +32,13 @@ namespace E_Commerce.API.Controllers
             
             return  ToActionResult(await _authenticationService.RegisterAsync(registerDto, cancellationToken));
         }
-        
-        
+
+
+        // Check Email Exists
+        [HttpGet("Emailexists")]
+        public async Task<ActionResult<bool>> CheckEmail([FromQuery] string email, CancellationToken cancellationToken)
+        {
+            return ToActionResult(await _authenticationService.CheckEmailExistsAsync(email, cancellationToken));
+        }
     }
 }
