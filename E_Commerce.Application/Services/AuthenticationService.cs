@@ -12,10 +12,12 @@ namespace E_Commerce.Application.Services
     internal class AuthenticationService : IAuthenticationService
     {
         private readonly IIdentityService _identityService;
+        private readonly ITokenService _tokenService;
 
-        public AuthenticationService(IIdentityService identityService)
+        public AuthenticationService(IIdentityService identityService, ITokenService tokenService)
         {
             _identityService = identityService;
+            _tokenService = tokenService;
         }
         public async Task<Result<UserDto>> LoginAsync(LoginDto loginDto, CancellationToken cancellationToken = default)
         {
@@ -40,12 +42,16 @@ namespace E_Commerce.Application.Services
            }
 
             // Return Result + User Dto
+            var user = userResult.data;
+            var rolesResult = await _identityService.GetUserRolesAsync(user.Email);
+            var roles = rolesResult.data;
 
+            var token = _tokenService.CreateToken(user.Id, user.Email, user.UserName, user.DisplayName, roles);
             return new UserDto()
             {
                 Email = loginDto.Email,
                 DisplayName = userResult.data.DisplayName,
-                Token = "Token"
+                Token = token
             };
         }
 
@@ -59,14 +65,18 @@ namespace E_Commerce.Application.Services
            }
 
             var user = userResult.data;
-           return Result<UserDto>.OK(new UserDto()
+            var rolesResult = await _identityService.GetUserRolesAsync(user.Email);
+            var roles = rolesResult.data;
+            var token = _tokenService.CreateToken(user.Id, user.Email, user.UserName, user.DisplayName, roles);
+
+            return Result<UserDto>.OK(new UserDto()
            {
                Email = user.Email,
                DisplayName = user.DisplayName,
-               Token = "Token"
+               Token = token
 
 
-           });
+            });
         }
     } 
 }

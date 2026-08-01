@@ -17,15 +17,19 @@ namespace E_Commerce.API.Controllers
 
         //Login 
         [HttpPost("Login")]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto, CancellationToken cancellationToken)
         {
             return  ToActionResult(await _authenticationService.LoginAsync(loginDto, cancellationToken));
         }
-
+         
         //Register  
         [HttpPost("Register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto, CancellationToken cancellationToken)
         {
+                
+            
             return  ToActionResult(await _authenticationService.RegisterAsync(registerDto, cancellationToken));
         }
         
