@@ -25,6 +25,18 @@ namespace E_Commerce.Application.Services
             return await _identityService.EmailExistsAsync(email, cancellationToken);
         }
 
+        public async Task<Result<UserDto>> GetCurrentUserAsync(string email, CancellationToken cancellationToken = default)
+        {
+            var userResult = await _identityService.FindUserByEmailAsync(email, cancellationToken);
+
+            var user = userResult.data;
+            var roleResult = await _identityService.GetUserRolesAsync(email, cancellationToken);
+
+            var token =  _tokenService.CreateToken(user.Id, user.Email, user.UserName, user.DisplayName, roleResult.data);
+            
+            return new UserDto() { DisplayName = user.DisplayName, Email = user.Email, Token = token };
+        }
+
         public async Task<Result<UserDto>> LoginAsync(LoginDto loginDto, CancellationToken cancellationToken = default)
         {
             // Get User By Email
