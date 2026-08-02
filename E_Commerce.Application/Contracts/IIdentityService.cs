@@ -15,6 +15,7 @@ namespace E_Commerce.Application.Contracts
         Task<Result<IdentityUserResult>> CreateUserAsync(RegisterDto registerDto, CancellationToken cancellationToken = default);
         Task<Result<IReadOnlyList<string>>> GetUserRolesAsync(string email, CancellationToken cancellationToken = default);
         Task<Result<bool>> EmailExistsAsync(string email, CancellationToken cancellationToken = default);
+        Task<Result<AddressDto>> GetUserAddressByEmailAsync(string email, CancellationToken cancellationToken = default);
 
 
     }

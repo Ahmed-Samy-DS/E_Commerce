@@ -48,8 +48,18 @@ namespace E_Commerce.API.Controllers
         [HttpGet("CurrentUser")]
         public async Task<ActionResult<UserDto>> GetCurrentUser(CancellationToken cancellationToken)
         {
-            var email = User.FindFirstValue(ClaimTypes.Email) ?? throw new UnauthorizedAccessException("No Email Claim Found");
-            return ToActionResult(await _authenticationService.GetCurrentUserAsync(email, cancellationToken));
+            //var email = User.FindFirstValue(ClaimTypes.Email) ?? throw new UnauthorizedAccessException("No Email Claim Found");
+            return ToActionResult(await _authenticationService.GetCurrentUserAsync(GetEmailFromToken(), cancellationToken));
+        }
+
+        // Get Current User Address
+        [Authorize]
+        [HttpGet("UserAddress")]
+        public async Task<ActionResult<AddressDto>> GetCurrentUserAddress(CancellationToken cancellationToken)
+        {
+            //var email = User.FindFirstValue(ClaimTypes.Email) ?? throw new UnauthorizedAccessException("No Email Claim Found");
+
+            return ToActionResult(await _authenticationService.GetCurrentUserAddressAsync(GetEmailFromToken(), cancellationToken));
         }
     }
 }

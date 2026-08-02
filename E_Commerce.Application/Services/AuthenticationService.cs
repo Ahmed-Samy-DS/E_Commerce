@@ -25,6 +25,11 @@ namespace E_Commerce.Application.Services
             return await _identityService.EmailExistsAsync(email, cancellationToken);
         }
 
+        public async Task<Result<AddressDto>> GetCurrentUserAddressAsync(string email, CancellationToken cancellationToken = default)
+        {
+            return await _identityService.GetUserAddressByEmailAsync(email, cancellationToken);
+        }
+
         public async Task<Result<UserDto>> GetCurrentUserAsync(string email, CancellationToken cancellationToken = default)
         {
             var userResult = await _identityService.FindUserByEmailAsync(email, cancellationToken);
