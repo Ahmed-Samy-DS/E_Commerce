@@ -116,6 +116,47 @@ namespace E_Commerce.Infrastructure.Identity.Services
             };
 
         }
+
+        public async Task<Result<AddressDto>> UpdateOrInsertUserAddressAsync(string email, AddressDto addressDto, CancellationToken cancellationToken = default)
+        {
+            var user = await _userManager.Users.Include(x => x.Address).FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
+
+            if(user?.Address == null)
+            {
+                //Insert New Address
+
+                user.Address = new Address()
+                {
+                    FirstName = addressDto.FirstName,
+                    LastName = addressDto.LastName,
+                    City = addressDto.City,
+                    Country = addressDto.Country,
+                    Street = addressDto.Street
+
+                };
+            }
+
+            else
+            {
+                //Update Address
+                user.Address.FirstName = addressDto.FirstName;
+                user.Address.LastName = addressDto.LastName;
+                user.Address.City = addressDto.City;
+                user.Address.Country = addressDto.Country;
+                user.Address.Street = addressDto.Street;
+            }
+
+            var result =  await _userManager.UpdateAsync(user);
+            if(result.Succeeded)
+            {
+                return addressDto;
+            }
+            else
+            {
+                return Error.Failure("Failure", string.Join(';', result.Errors.Select(e => e.Description)));
+            }
+
+        }
     }
 }
 

@@ -19,6 +19,7 @@ namespace E_Commerce.Application.Contracts
         Task<Result<bool>> CheckEmailExistsAsync(string email, CancellationToken cancellationToken = default);
         Task<Result<UserDto>> GetCurrentUserAsync(string email, CancellationToken cancellationToken = default);
         Task<Result<AddressDto>> GetCurrentUserAddressAsync(string email, CancellationToken cancellationToken = default);
+        Task<Result<AddressDto>> UpSertUserAddressAsync(string email, AddressDto addressDto, CancellationToken cancellationToken = default);
  
     }
 }

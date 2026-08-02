@@ -101,6 +101,11 @@ namespace E_Commerce.Application.Services
 
             });
         }
+
+        public Task<Result<AddressDto>> UpSertUserAddressAsync(string email, AddressDto addressDto, CancellationToken cancellationToken = default)
+        {
+            return _identityService.UpdateOrInsertUserAddressAsync(email, addressDto, cancellationToken);
+        }
     } 
 }
  
