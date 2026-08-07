@@ -31,8 +31,7 @@ namespace E_Commerce.Infrastructure.Data.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     BuyerEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShippingAddress_City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ShippingAddress_Street = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -66,7 +65,7 @@ namespace E_Commerce.Infrastructure.Data.Migrations
                     Product_PictureUrl = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: true)
+                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -8,6 +8,6 @@ namespace E_Commerce.Domain.Common
 {
     public abstract class BaseEntity<Tkey>
     {
-        public int Id { get; set; } = default!;
+        public Tkey Id { get; set; } = default!;
     }
 }

@@ -55,11 +55,9 @@ namespace E_Commerce.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("E_Commerce.Domain.Entities.Orders.Order", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("BuyerEmail")
                         .IsRequired()
@@ -94,8 +92,8 @@ namespace E_Commerce.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(8,2)");
@@ -195,8 +193,8 @@ namespace E_Commerce.Infrastructure.Data.Migrations
 
                     b.OwnsOne("E_Commerce.Domain.Entities.Orders.OrderAddress", "ShippingAddress", b1 =>
                         {
-                            b1.Property<int>("OrderId")
-                                .HasColumnType("int");
+                            b1.Property<Guid>("OrderId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("City")
                                 .IsRequired()
