@@ -129,6 +129,19 @@ namespace E_Commerce.Application.Services
         
         }
 
+        public async Task<Result<IReadOnlyList<DeliveryMethodDto>>> GetDeliveryMethodsAsync(CancellationToken cancellationToken = default)
+        {
+            var deliveryMethods = await _unitOfWork.GetRepository<DeliveryMethod, int>().GetAllAsync(cancellationToken);
+
+            if (deliveryMethods is null || !deliveryMethods.Any())
+            {
+                return Error.NotFound("Delivery Methods Not Found","No delivery methods were found.");
+            }
+
+            return Result<IReadOnlyList<DeliveryMethodDto>>.OK(_mapper.Map<IReadOnlyList<DeliveryMethodDto>>(deliveryMethods));
+        }
+        
+
         public async Task<Result<OrderToReturnDto>> GetOrderForUserByIdAndEmailAsync(Guid orderId, string email, CancellationToken cancellationToken = default)
         {
             var order = await _unitOfWork.GetRepository<Order, Guid>().GetByIdAsync(new OrderSpecifications(orderId, email),cancellationToken);

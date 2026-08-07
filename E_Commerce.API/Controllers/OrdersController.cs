@@ -51,7 +51,12 @@ namespace E_Commerce.API.Controllers
 
         // Get/api/orders/ Delivery Methods => List of Delivery Methods 
 
-
+        [AllowAnonymous]
+        [HttpGet("DeliveryMethods")]
+        public async Task<ActionResult<IReadOnlyList<DeliveryMethodDto>>> GetDeliveryMethods(CancellationToken cancellationToken)
+        {
+            return ToActionResult(await _orderService.GetDeliveryMethodsAsync(cancellationToken));
+        }
 
 
 
