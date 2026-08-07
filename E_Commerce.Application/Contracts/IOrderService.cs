@@ -14,5 +14,10 @@ namespace E_Commerce.Application.Contracts
         // Create Order 
 
         Task<Result<OrderToReturnDto>> CreateOrderAsync(OrderDto orderDto, string email, CancellationToken cancellationToken = default);
+
+        Task<Result<IReadOnlyList<OrderToReturnDto>>> GetAllOrdersForUserAsync(string email , CancellationToken cancellationToken = default);
+
+        Task<Result<OrderToReturnDto>> GetOrderForUserByIdAndEmailAsync(Guid orderId, string email, CancellationToken cancellationToken = default);
+
     }
 }
