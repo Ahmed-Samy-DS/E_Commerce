@@ -41,6 +41,17 @@ namespace E_Commerce.Application.Services
             }
 
 
+            var exOrder = await _unitOfWork.GetRepository<Order, Guid>()
+                .GetByIdAsync( new PaymentIntentSpecifications(basket.PaymentIntentId));
+
+
+            if(exOrder != null) 
+            {
+                 _unitOfWork.GetRepository<Order, Guid>().Remove(exOrder);
+            }
+
+
+
             // Items (Order Item)
 
             var orderItems = new List<OrderItem>(basket.Items.Count);
@@ -93,11 +104,11 @@ namespace E_Commerce.Application.Services
             // Subtotal 
 
             var subTotal = orderItems.Sum(x => x.Price * x.Quantity);
-           
+
 
             // Create Order 
 
-            var order = new Order (email, orderAddress, orderItems, deliveryMethod, subTotal);
+            var order = new Order(email, orderAddress, orderItems, deliveryMethod, subTotal, basket.PaymentIntentId); 
 
             _unitOfWork.GetRepository<Order, Guid>().Add(order); // local variable order is added to the repository
 
